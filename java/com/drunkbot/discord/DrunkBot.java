@@ -1,8 +1,5 @@
 package com.drunkbot.discord;
-//import
-/**
- * Created by Dylan on 11/23/2016.
- */
+
 
 
 import com.drunkbot.discord.events.EventListener;
@@ -67,7 +64,7 @@ public class DrunkBot {
 //                                    message.reply("Shut the fuck up gaylord!");
 //                                    break;
 //                                case 1:
-//                                    message.reply("Yep yep yep... no one gives a shit Anthony");
+//                                    message.reply("Yep yep yep... no one gives a shit a");
 //                                    break;
 //                                case 2:
 //                                    message.reply("Dude... really?");

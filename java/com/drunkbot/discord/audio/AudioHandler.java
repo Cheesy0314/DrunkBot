@@ -51,18 +51,26 @@ public class AudioHandler {
                 message.getChannel().sendMessage("Set volume to " + vol + ".");
 
 
-            }  else if (message.getContent().toLowerCase().contains("play")) {
-                try {
+            }  else if (message.getContent().toLowerCase().contains("john") || message.getContent().toLowerCase().contains("cena") ) {
+
                     AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                    player.queue(new File("main/resources/jc.mp3"));
-                    player.queue(new File("/Users/dylan/IdeaProjects/DrunkBot/main/resources/jc.mp3"));
+                    player.setVolume(20.0f);
+                    player.queue(new File("src\\resources\\jc.mp3"));
 //                    player.skipTo(0);
                     ObjectMapper mapper = new ObjectMapper();
                     System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
                     message.getChannel().sendMessage("Queueing files status: " + (player.getCurrentTrack().isReady() ? "Ready" : "Not Ready"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            }  else if (message.getContent().toLowerCase().contains("play") || message.getContent().toLowerCase().contains("airhorn") ) {
+
+                AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+                player.setVolume(20.0f);
+                player.queue(new File("src\\resources\\airhorn.mp3"));
+//                    player.skipTo(0);
+                ObjectMapper mapper = new ObjectMapper();
+                System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
+                message.getChannel().sendMessage("Queueing files status: " + (player.getCurrentTrack().isReady() ? "Ready" : "Not Ready"));
+
+
 
             } else if (message.getContent().toLowerCase().contains("pause")) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
