@@ -2,6 +2,7 @@ package com.drunkbot.discord.audio;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.obj.VoiceChannel;
 import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
@@ -56,22 +57,22 @@ public class AudioHandler {
                     AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                     player.setVolume(20.0f);
                     player.queue(new File("src\\resources\\jc.mp3"));
-//                    player.skipTo(0);
                     ObjectMapper mapper = new ObjectMapper();
                     System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
-                    message.getChannel().sendMessage("Queueing files status: " + (player.getCurrentTrack().isReady() ? "Ready" : "Not Ready"));
-            }  else if (message.getContent().toLowerCase().contains("play") || message.getContent().toLowerCase().contains("airhorn") ) {
+                    message.reply("You asked for it....");
 
+            }  else if (message.getContent().toLowerCase().contains("play") || message.getContent().toLowerCase().contains("airhorn") ) {
+//                VoiceChannel voiceChannel = message.getAuthor().getConnectedVoiceChannels().
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                 player.setVolume(20.0f);
                 player.queue(new File("src\\resources\\airhorn.mp3"));
 //                    player.skipTo(0);
                 ObjectMapper mapper = new ObjectMapper();
                 System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
-                message.getChannel().sendMessage("Queueing files status: " + (player.getCurrentTrack().isReady() ? "Ready" : "Not Ready"));
-
-
-
+                message.getChannel().sendMessage("WHOOP WHOOP");
+            } else if (message.getContent().toLowerCase().contains("who")) {
+                AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+                player.queue(new File("src\\resources\\ebb.mp3"));
             } else if (message.getContent().toLowerCase().contains("pause")) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                 player.setPaused(true);
