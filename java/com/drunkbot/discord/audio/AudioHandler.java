@@ -27,10 +27,10 @@ public class AudioHandler {
                 try {
                     IVoiceChannel voicechannel;
 
-                    if (message.getAuthor().getConnectedVoiceChannels().get(0) != null) {
+                    if (message.getAuthor().getConnectedVoiceChannels().size() > 0) {
                         voicechannel = message.getAuthor().getConnectedVoiceChannels().get(0);
                     } else  {
-                        voicechannel = event.getClient().getGuildByID(message.getGuild().getID()).getVoiceChannelsByName(message.getContent().substring(9)).get(0);
+                        voicechannel = event.getClient().getGuildByID(message.getGuild().getID()).getVoiceChannelByID("221334865780539392");
                     }
                     voicechannel.join();
                     message.getChannel().sendMessage("Joined `" + voicechannel.getName() + "`.");
