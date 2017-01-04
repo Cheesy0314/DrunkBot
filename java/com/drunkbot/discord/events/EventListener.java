@@ -26,7 +26,7 @@ public class EventListener implements IListener<ReadyEvent> {
     private void performActions(ReadyEvent event) {
         IDiscordClient client = event.getClient();
         if (client.isReady()) {
-            client.changePresence(true);
+            client.changePresence(false);
             client.changeStatus(Status.game("--help"));
         }
     }
