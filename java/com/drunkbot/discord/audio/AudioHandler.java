@@ -19,20 +19,13 @@ public class AudioHandler {
     private static final String botprefix = "";
     @EventSubscriber
     public void OnMesageEvent(MessageReceivedEvent event) throws IOException, UnsupportedAudioFileException, RateLimitException, MissingPermissionsException, DiscordException {
+
         IMessage message = event.getMessage(); // Get message from event
 
-//        if(message.getContent().startsWith(botprefix)){
-//            String command = message.getContent().replaceFirst(botprefix, ""); // Remove prefix
-//            String[] args = command.split(" "); // Split command into arguments
-
-            if(message.getContent().toLowerCase().contains("summon")) {
+            if(message.getContent().toLowerCase().contains("--summon")) {
                 try {
-//                    DiscordVoiceWS socket =
-
                     IVoiceChannel voicechannel = message.getAuthor().getConnectedVoiceChannels().get(0);
-//                    voicechannel
                     voicechannel.join();
-//                    voicechannel.
                     message.getChannel().sendMessage("Joined `" + voicechannel.getName() + "`.");
 
                 } catch (Exception e) {
@@ -40,50 +33,44 @@ public class AudioHandler {
                 }
 
 
-            } else if (message.getContent().toLowerCase().contains("dismiss")) {
+            } else if (message.getContent().toLowerCase().contains("--dismiss")) {
                 IVoiceChannel voiceChannel = message.getAuthor().getConnectedVoiceChannels().get(0);
                 voiceChannel.leave();
                 message.getChannel().sendMessage("Left channel `" + voiceChannel.getName() + "`.");
 
 
-            }else if(message.getContent().toLowerCase().contains("volume")) {
+            }else if(message.getContent().toLowerCase().contains("--volume")) {
                 float vol = Float.parseFloat(message.getContent().split(" ")[1]);
-                setVolume(vol, message.getGuild());
-                message.getChannel().sendMessage("Set volume to " + vol + ".");
+                AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+                player.setVolume(vol/100);
+                int nv = java.lang.Math.round(vol);
+                message.reply("Set volume to " + nv);
 
-
-            }  else if (message.getContent().toLowerCase().contains("john") || message.getContent().toLowerCase().contains("cena") ) {
+            }  else if (message.getContent().toLowerCase().contains("--john") || message.getContent().toLowerCase().contains("--cena") ) {
 
                     AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                    player.setVolume(20.0f);
-                    player.queue(new File("src\\resources\\jc.mp3"));
+
+                        player.queue(new File("src\\resources\\jc.mp3"));
+
                     ObjectMapper mapper = new ObjectMapper();
                     System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
-                    message.reply("You asked for it....");
+//                    message.reply("You asked for it....");
 
-            }  else if (message.getContent().toLowerCase().contains("play") || message.getContent().toLowerCase().contains("airhorn") ) {
-//                VoiceChannel voiceChannel = message.getAuthor().getConnectedVoiceChannels().
+            }  else if (message.getContent().toLowerCase().contains("--play") || message.getContent().toLowerCase().contains("airhorn") ) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                player.setVolume(20.0f);
-                player.queue(new File("src\\resources\\airhorn.mp3"));
-//                    player.skipTo(0);
-                ObjectMapper mapper = new ObjectMapper();
-                System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
-                message.getChannel().sendMessage("WHOOP WHOOP");
-            } else if (message.getContent().toLowerCase().contains("who")) {
-                AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                player.queue(new File("src\\resources\\ebb.mp3"));
-            } else if (message.getContent().toLowerCase().contains("pause")) {
+
+                    player.queue(new File("src\\resources\\airhorn.mp3"));
+            } else if (message.getContent().toLowerCase().contains("--pause")) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                 player.setPaused(true);
                 message.getChannel().sendMessage("Pausing.");
-
-
-            } else if (message.getContent().toLowerCase().contains("resume")) {
+            } else if (message.getContent().toLowerCase().contains("--resume")) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                 player.setPaused(false);
                 message.getChannel().sendMessage("Resuming Audio.");
-
+            } else if (message.getContent().equalsIgnoreCase("--skip")) {
+                AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+                player.skip();
             }
 
     }
