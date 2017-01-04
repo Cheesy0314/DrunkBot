@@ -11,6 +11,7 @@ import sx.blah.discord.util.audio.AudioPlayer;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by dylan on 11/23/16.
@@ -24,7 +25,13 @@ public class AudioHandler {
 
             if(message.getContent().toLowerCase().contains("--summon")) {
                 try {
-                    IVoiceChannel voicechannel = message.getAuthor().getConnectedVoiceChannels().get(0);
+                    IVoiceChannel voicechannel;
+
+                    if (message.getAuthor().getConnectedVoiceChannels().get(0) != null) {
+                        voicechannel = message.getAuthor().getConnectedVoiceChannels().get(0);
+                    } else  {
+                        voicechannel = event.getClient().getGuildByID(message.getGuild().getID()).getVoiceChannelsByName(message.getContent().substring(9)).get(0);
+                    }
                     voicechannel.join();
                     message.getChannel().sendMessage("Joined `" + voicechannel.getName() + "`.");
 
@@ -34,7 +41,7 @@ public class AudioHandler {
 
 
             } else if (message.getContent().toLowerCase().contains("--dismiss")) {
-                IVoiceChannel voiceChannel = message.getAuthor().getConnectedVoiceChannels().get(0);
+                IVoiceChannel voiceChannel = event.getClient().getOurUser().getConnectedVoiceChannels().get(0);
                 voiceChannel.leave();
                 message.getChannel().sendMessage("Left channel `" + voiceChannel.getName() + "`.");
 
@@ -56,7 +63,7 @@ public class AudioHandler {
                     System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
 //                    message.reply("You asked for it....");
 
-            }  else if (message.getContent().toLowerCase().contains("--play") || message.getContent().toLowerCase().contains("airhorn") ) {
+            }  else if ( message.getContent().toLowerCase().contains("airhorn") ) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
 
                     player.queue(new File("src\\resources\\airhorn.mp3"));
@@ -71,6 +78,13 @@ public class AudioHandler {
             } else if (message.getContent().equalsIgnoreCase("--skip")) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                 player.skip();
+            } else if (message.getContent().toLowerCase().contains("--play")) {
+                try {
+                    AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+                    player.queue(new URL(message.getContent().substring(7).toLowerCase()));
+                } catch (Exception e ) {
+                    message.reply("That's not a valid link asshole");
+                }
             }
 
     }
