@@ -4,10 +4,7 @@ import com.drunkbot.discord.DrunkBot;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.*;
 
 import java.util.List;
 import java.util.Random;
@@ -62,7 +59,19 @@ public class AdminListener implements IListener<MessageReceivedEvent> {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
+                } else if (message.getContent().contains("--prune") && valid) {
+                    try {
+                        int amount = Integer.parseInt(message.getContent().substring(8));
+                        IChannel channel = message.getChannel();
+                        if (amount > channel.getMessages().size()) {
+                            amount = channel.getMessages().size();
+                        }
+                        int messageIndex = channel.getMessages().indexOf(message);
+                        channel.getMessages().deleteAfter(messageIndex, amount);
+                    } catch (Exception e) {
+                        message.reply("I'm sorry... I cannot do that right now.");
+                        e.printStackTrace();
+                    }
                 } else if (valid == false && message.getContent().startsWith("--")) {
                 message.reply("You can't do that shit stain");
             }
