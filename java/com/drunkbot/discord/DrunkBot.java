@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.Status;
 import sx.blah.discord.util.DiscordException;
 
 import java.util.Random;
@@ -21,6 +22,8 @@ public class DrunkBot {
         try {
             listener = new EventListener();
            client = makeClient(token, true);
+
+
         } catch (Exception e) {
             logger.error(ExceptionUtils.getMessage(e));
         }
@@ -29,6 +32,7 @@ public class DrunkBot {
     public IDiscordClient makeClient(String token, boolean login) throws DiscordException {
         ClientBuilder clientBuilder = new ClientBuilder();
         clientBuilder.withToken(token);
+
 
         if (login) {
             return clientBuilder.login();
