@@ -15,7 +15,7 @@ import java.util.Random;
 public class DrunkBot {
     public static Random randomGenerator = new Random();
     public static final Logger logger = LogManager.getLogger(DrunkBot.class);
-    private  EventListener listener;
+    private EventListener listener;
     private IDiscordClient client;
     public DrunkBot (String token) {
         try {
