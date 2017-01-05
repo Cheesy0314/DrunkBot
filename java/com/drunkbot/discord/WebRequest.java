@@ -47,4 +47,23 @@ public class WebRequest {
 
         return builder.toString();
     }
+
+    public String doTwitchRequest (String user) throws Exception{
+        StringBuilder builder = new StringBuilder();
+        URL url = new URL("https://api.twitch.tv/kraken/streams/" + user);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("Accept","application/vnd.twitchtv.v5+json");
+        conn.setRequestProperty("Client-ID","xeqnbvxqztl3xihqnmfc4qkzjcmydc");
+        conn.setRequestMethod("GET");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            builder.append(line);
+        }
+
+        reader.close();
+
+        return builder.toString();
+    }
 }
