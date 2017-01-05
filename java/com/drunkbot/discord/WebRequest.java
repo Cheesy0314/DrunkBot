@@ -16,11 +16,26 @@ import java.util.Map;
  * Created by Dylan on 1/3/2017.
  */
 public class WebRequest {
+    private Map<String,String> headers;
 
+    public void setHeaders (Map input) {
+        headers = input;
+    }
+
+    public void setHeader(String key, String value) {
+        if (headers == null) {
+            headers = new HashMap<String, String>();
+        }
+
+        headers.put(key,value);
+    }
     public String doRequest (String target) throws Exception {
         StringBuilder builder = new StringBuilder();
         URL url = new URL(target);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        for (String key : headers.keySet()) {
+            conn.setRequestProperty(key,headers.get(key));
+        }
         conn.setRequestMethod("GET");
         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
@@ -30,9 +45,6 @@ public class WebRequest {
         }
 
         reader.close();
-
-
-
 
         return builder.toString();
     }

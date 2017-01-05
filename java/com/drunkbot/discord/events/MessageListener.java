@@ -38,6 +38,12 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
                         "--ban: I will ban specified user\n" +
                         "--soft: I will soft ban specified user\n";
                 message.getAuthor().getOrCreatePMChannel().sendMessage(rules);
+            } else if (message.getContent().toLowerCase().contains("but i was diamond")) {
+                message.reply("sure you were buddy....");
+                message.addReaction(message.getGuild().getEmojiByName("douche"));
+            } else  if (message.getContent().contains("{-}7")) {
+                message.addReaction(message.getGuild().getEmojiByName("douche"));
+//                message.addReaction(":douche:");
             }
 
         } catch (Exception e ) {

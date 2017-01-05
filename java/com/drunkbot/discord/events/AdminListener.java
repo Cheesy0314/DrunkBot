@@ -69,7 +69,7 @@ public class AdminListener implements IListener<MessageReceivedEvent> {
                         int messageIndex = channel.getMessages().indexOf(message);
                         channel.getMessages().deleteAfter(messageIndex, amount);
                     } catch (Exception e) {
-                        message.reply("I'm sorry... I cannot do that right now.");
+//                        message.reply("I'm sorry... I cannot do that right now.");
                         e.printStackTrace();
                     }
                 } else if (valid == false && message.getContent().startsWith("--")) {
