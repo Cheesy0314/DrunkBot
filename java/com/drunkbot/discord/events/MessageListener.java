@@ -42,7 +42,7 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
                 message.reply("sure you were buddy....");
                 message.addReaction(message.getGuild().getEmojiByName("douche"));
             } else  if (message.getContent().contains("{-}7")) {
-                message.addReaction(message.getGuild().getEmojiByName("douche"));
+                message.addReaction(message.getGuild().getEmojiByName("chank"));
 //                message.addReaction(":douche:");
             }
 

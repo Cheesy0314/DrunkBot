@@ -1,6 +1,7 @@
 package com.drunkbot.discord.audio;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import sx.blah.discord.api.events.EventSubscriber;
+import sx.blah.discord.handle.audio.impl.AudioManager;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.VoiceChannel;
 import sx.blah.discord.handle.obj.*;
@@ -81,9 +82,14 @@ public class AudioHandler {
             } else if (message.getContent().toLowerCase().contains("--play")) {
                 try {
                     AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                    player.queue(new URL(message.getContent().substring(7).toLowerCase()));
+                    player.queue(new URL(message.getContent().substring(7)));
                 } catch (Exception e ) {
-                    message.reply("That's not a valid link asshole");
+                   try {
+                       YoutubeProvider provider = new YoutubeProvider(message.getContent().substring(7).substring(message.getContent().substring(7).indexOf(".com/")));
+                       AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+                       player.queue(provider);
+                   } catch (Exception t) {t.printStackTrace(); message.reply("That's not a valid link asshole");
+                   }
                 }
             }
 
