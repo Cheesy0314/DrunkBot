@@ -41,9 +41,18 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
             } else if (message.getContent().toLowerCase().contains("but i was diamond")) {
                 message.reply("sure you were buddy....");
                 message.addReaction(message.getGuild().getEmojiByName("douche"));
+            } else if (message.getContent().toLowerCase().contains("dayz")) {
+                message.addReaction(message.getGuild().getEmojiByName("douche"));
+            } else if (message.getContent().toLowerCase().contains("twitch")) {
+//                message.addReaction(
+                        message.addReaction(message.getGuild().getEmojiByName("streamer"));
+
             } else  if (message.getContent().contains("{-}7")) {
                 message.addReaction(message.getGuild().getEmojiByName("chank"));
 //                message.addReaction(":douche:");
+
+            } else if (message.getContent().toLowerCase().contains("r6") || message.getContent().toLowerCase().contains("rainbow6")) {
+                message.addReaction(message.getGuild().getEmojiByName("CB1"));
             }
 
         } catch (Exception e ) {

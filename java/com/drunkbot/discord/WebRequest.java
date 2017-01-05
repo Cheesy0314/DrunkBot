@@ -33,9 +33,8 @@ public class WebRequest {
         StringBuilder builder = new StringBuilder();
         URL url = new URL(target);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        for (String key : headers.keySet()) {
-            conn.setRequestProperty(key,headers.get(key));
-        }
+
+//        }
         conn.setRequestMethod("GET");
         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;

@@ -1,6 +1,7 @@
 package com.drunkbot.discord.audio;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import sx.blah.discord.api.events.EventSubscriber;
+import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.audio.impl.AudioManager;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.VoiceChannel;
@@ -17,20 +18,19 @@ import java.net.URL;
 /**
  * Created by dylan on 11/23/16.
  */
-public class AudioHandler {
+public class AudioHandler implements IListener<MessageReceivedEvent> {
     private static final String botprefix = "";
-    @EventSubscriber
-    public void OnMesageEvent(MessageReceivedEvent event) throws IOException, UnsupportedAudioFileException, RateLimitException, MissingPermissionsException, DiscordException {
+    public void handle(MessageReceivedEvent event) {
+        try {
+            IMessage message = event.getMessage(); // Get message from event
 
-        IMessage message = event.getMessage(); // Get message from event
-
-            if(message.getContent().toLowerCase().contains("--summon")) {
+            if (message.getContent().toLowerCase().contains("--summon")) {
                 try {
                     IVoiceChannel voicechannel;
 
                     if (message.getAuthor().getConnectedVoiceChannels().size() > 0) {
                         voicechannel = message.getAuthor().getConnectedVoiceChannels().get(0);
-                    } else  {
+                    } else {
                         voicechannel = event.getClient().getGuildByID(message.getGuild().getID()).getVoiceChannelByID("221334865780539392");
                     }
                     voicechannel.join();
@@ -47,27 +47,29 @@ public class AudioHandler {
                 message.getChannel().sendMessage("Left channel `" + voiceChannel.getName() + "`.");
 
 
-            }else if(message.getContent().toLowerCase().contains("--volume")) {
+            } else if (message.getContent().toLowerCase().contains("--volume")) {
                 float vol = Float.parseFloat(message.getContent().split(" ")[1]);
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                player.setVolume(vol/100);
+                player.setVolume(vol / 100);
                 int nv = java.lang.Math.round(vol);
                 message.reply("Set volume to " + nv);
 
-            }  else if (message.getContent().toLowerCase().contains("--john") || message.getContent().toLowerCase().contains("--cena") ) {
+            } else if (message.getContent().toLowerCase().contains("--john") || message.getContent().toLowerCase().contains("--cena")) {
 
-                    AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-
-                        player.queue(new File("src\\resources\\jc.mp3"));
-
-                    ObjectMapper mapper = new ObjectMapper();
-                    System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
-//                    message.reply("You asked for it....");
-
-            }  else if ( message.getContent().toLowerCase().contains("airhorn") ) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
 
-                    player.queue(new File("src\\resources\\airhorn.mp3"));
+                player.queue(new File("src\\resources\\jc.mp3"));
+
+                message.addReaction(message.getGuild().getEmojiByName("chill"));
+                ObjectMapper mapper = new ObjectMapper();
+                System.out.println(mapper.writeValueAsString(player.getCurrentTrack().getMetadata()));
+//                    message.reply("You asked for it....");
+
+            } else if (message.getContent().toLowerCase().contains("airhorn")) {
+                AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
+
+                player.queue(new File("src\\resources\\airhorn.mp3"));
+                message.addReaction(message.getGuild().getEmojiByName("douche"));
             } else if (message.getContent().toLowerCase().contains("--pause")) {
                 AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                 player.setPaused(true);
@@ -83,16 +85,14 @@ public class AudioHandler {
                 try {
                     AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
                     player.queue(new URL(message.getContent().substring(7)));
-                } catch (Exception e ) {
-                   try {
-                       YoutubeProvider provider = new YoutubeProvider(message.getContent().substring(7).substring(message.getContent().substring(7).indexOf(".com/")));
-                       AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(message.getGuild());
-                       player.queue(provider);
-                   } catch (Exception t) {t.printStackTrace(); message.reply("That's not a valid link asshole");
-                   }
+                } catch (Exception e) {
+                    message.reply("That's not a valid link asshole");
+
                 }
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

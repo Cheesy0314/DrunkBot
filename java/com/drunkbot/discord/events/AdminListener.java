@@ -5,7 +5,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.audio.AudioPlayer;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 
@@ -33,10 +35,26 @@ public class AdminListener implements IListener<MessageReceivedEvent> {
 
                     message.reply("Kick: " + user);
                     try {
+
                         IUser userObj = guild.getUsersByName(user, true).get(0);
-                        message.getGuild().kickUser(guild.getUserByID(userObj.getID()));
+                        if (userObj.getConnectedVoiceChannels().size() == 0) {
+                            message.getGuild().kickUser(guild.getUserByID(userObj.getID()));
+                        } else {
+                            userObj.getConnectedVoiceChannels().get(0).join();
+                            AudioPlayer player = AudioPlayer.getAudioPlayerForGuild(guild);
+                            player.clear();
+                            player.queue(new File("src\\resources\\surprise.mp3"));
+                            int i = 0;
+                            while (player.getPlaylistSize() > 0) {
+                                i++;
+                            }
+                            DrunkBot.logger.info("Took this long: " + i);
+                            event.getClient().getOurUser().getConnectedVoiceChannels().get(0).leave();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        message.reply("Invalid user....");
+                        message.addReaction(guild.getEmojiByName(":gitgud:"));
                     }
 
                 } else if (message.getContent().contains("--ban") && valid) {
