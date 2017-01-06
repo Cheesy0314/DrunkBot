@@ -15,13 +15,12 @@ import java.util.Map;
 public class Watcher implements IListener<StatusChangeEvent> {
     @Override
     public void handle(StatusChangeEvent statusChangeEvent) {
-       if ( statusChangeEvent.getUser().getID().equalsIgnoreCase("222105327217147904") && statusChangeEvent.getNewStatus().getStatusMessage().toLowerCase().contains("streaming") ) {
+       if ( statusChangeEvent.getUser().getID().equalsIgnoreCase("222105327217147904") ) {
            try {
                ObjectMapper mapper = new ObjectMapper();
                WebRequest request = new WebRequest();
                IGuild guild = statusChangeEvent.getClient().getGuildByID("221334865155457025");
 
-               System.out.println(statusChangeEvent.getNewStatus().getStatusMessage());
                for (IChannel channel : guild.getChannels()) {
                   String resp = request.doTwitchRequest("sodiumch1oride");
                    Map data = mapper.readValue(resp,Map.class);

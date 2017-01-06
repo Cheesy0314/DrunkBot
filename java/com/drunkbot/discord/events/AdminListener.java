@@ -91,7 +91,10 @@ public class AdminListener implements IListener<MessageReceivedEvent> {
                         e.printStackTrace();
                     }
                 } else if (valid == false && message.getContent().startsWith("--")) {
-                message.reply("You can't do that shit stain");
+                    String content = message.getContent().toLowerCase();
+                    if (content.contains("--prune") || content.contains("--kick") || content.contains("--ban") || content.contains("--soft")) {
+                        message.reply("You can't do that shit stain");
+                    }
             }
         } catch (Exception e) {
             e.printStackTrace();
