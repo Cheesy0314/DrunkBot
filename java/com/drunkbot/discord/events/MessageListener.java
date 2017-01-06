@@ -4,7 +4,10 @@ import com.drunkbot.discord.DrunkBot;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.obj.IUser;
 
 import java.util.Random;
 
@@ -53,6 +56,18 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
 
             } else if (message.getContent().toLowerCase().contains("r6") || message.getContent().toLowerCase().contains("rainbow6")) {
                 message.addReaction(message.getGuild().getEmojiByName("CB1"));
+            } else if (message.getContent().contains("discord.gg") ) {
+                IUser user = message.getAuthor();
+                IGuild guild = message.getGuild();
+                IRole arole = guild.getRoleByID("221379836776546304");
+                IRole brole = guild.getRoleByID("231254104545034240");
+
+                if (!user.getRolesForGuild(guild).contains(arole) && !user.getRolesForGuild(guild).contains(brole)) {
+
+                    message.reply("No linking discord channels, please see rules!");
+                    message.delete();
+                    user.addRole(guild.getRolesByName("Shit List").get(0));
+                }
             }
 
         } catch (Exception e ) {
