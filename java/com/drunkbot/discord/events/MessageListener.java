@@ -6,13 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.IUser;
-
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by Dylan on 11/25/2016.
@@ -59,6 +54,10 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+
+            if (message.getAuthor().equals(message.getGuild().getUserByID("140879804122660864"))) {
+                message.addReaction(message.getGuild().getEmojiByName("CB1"));
             }
 
         } catch (Exception e ) {

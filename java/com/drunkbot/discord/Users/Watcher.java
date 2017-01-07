@@ -23,28 +23,31 @@ public class Watcher implements IListener<StatusChangeEvent> {
                IGuild guild = statusChangeEvent.getClient().getGuildByID("221334865155457025");
 
                for (IChannel channel : guild.getChannels()) {
-                   try {
+                   if (channel.getID().equalsIgnoreCase("221334865155457025") || channel.getID().equalsIgnoreCase("266002676917993492")) {
+                       try {
 
-                       String resp = request.doTwitchRequest("sodiumch1oride");
-                       Map data = mapper.readValue(resp, Map.class);
-                       if (data.containsKey("stream") && data.get("stream") != null && data.containsKey("channel") && !data.get("stream").equals("null")) {
-                           Map stream = (Map) data.get("stream");
-                           Map tcl = (Map) data.get("channel");
-                           String msg = statusChangeEvent.getUser().getName() + " is currently streaming: " + stream.get("game") +
-                                   "\nGo to " + tcl.get("url") + " to watch!";
-                           channel.sendMessage(msg).addReaction(guild.getEmojiByName("gitgud"));
-                       }
-                   } catch (Exception t) {
-                       if (statusChangeEvent.getUser().getPresence().equals(Presences.STREAMING)) {
-                           String msg = statusChangeEvent.getUser().getName() + " is currently streaming: " + statusChangeEvent.getNewStatus().getStatusMessage() +
-                                   "\nGo to " + "https://www.twitch.tv/sodiumch1oride" + " to watch!";
-                           channel.sendMessage(msg).addReaction(guild.getEmojiByName("gitgud"));
+                           String resp = request.doTwitchRequest("sodiumch1oride");
+                           Map data = mapper.readValue(resp, Map.class);
+                           if (data.containsKey("stream") && data.get("stream") != null && data.containsKey("channel") && !data.get("stream").equals("null")) {
+                               Map stream = (Map) data.get("stream");
+                               Map tcl = (Map) data.get("channel");
+                               String msg = statusChangeEvent.getUser().getName() + " is currently streaming: " + stream.get("game") +
+                                       "\nGo to " + tcl.get("url") + " to watch!";
+                               channel.sendMessage(msg).addReaction(guild.getEmojiByName("gitgud"));
+                           }
+                       } catch (Exception t) {
+                           if (statusChangeEvent.getUser().getPresence().equals(Presences.STREAMING)) {
+                               String msg = statusChangeEvent.getUser().getName() + " is currently streaming: " + statusChangeEvent.getNewStatus().getStatusMessage() +
+                                       "\nGo to " + "https://www.twitch.tv/sodiumch1oride" + " to watch!";
+                               channel.sendMessage(msg).addReaction(guild.getEmojiByName("gitgud"));
+                           }
                        }
                    }
                }
            }catch (Exception e) {
                e.printStackTrace();
            }
+
        }
     }
 }

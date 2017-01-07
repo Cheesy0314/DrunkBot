@@ -1,10 +1,5 @@
 package com.drunkbot.discord.connectors;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-//import org.apache.commons
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

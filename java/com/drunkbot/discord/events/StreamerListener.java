@@ -7,7 +7,6 @@ import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
 
 import java.util.Map;
 
@@ -16,10 +15,7 @@ import java.util.Map;
  */
 public class StreamerListener implements IListener<MessageReceivedEvent> {
     public void handle(MessageReceivedEvent messageReceivedEvent) {
-        IGuild guild = messageReceivedEvent.getMessage().getGuild();
         IMessage message = messageReceivedEvent.getMessage();
-        IChannel tc = message.getChannel();
-        IUser author = message.getAuthor();
 
         if (message.getContent().toLowerCase().contains("--twitch")) {
             String user = message.getContent().substring(10);
