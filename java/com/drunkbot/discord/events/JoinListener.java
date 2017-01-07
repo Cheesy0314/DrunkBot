@@ -17,11 +17,9 @@ public class JoinListener implements IListener<UserJoinEvent> {
         IGuild guild = userJoinEvent.getGuild();
 
         try {
-            for (IChannel channel :guild.getChannels()) {
-                if (channel.getUsersHere().contains(newUser)) {
-                    channel.sendMessage("@" + newUser.getName() + ", welcome to " + guild.getName() + " discord server. Please take a few moments to read the rules.").addReaction(guild.getEmojiByName("gitgud"));
-                }
-            }
+                    guild.getChannelByID("221334865155457025").sendMessage(newUser.getName() + ", welcome to " + guild.getName() + " discord server. Please take a few moments to read the rules.").addReaction(guild.getEmojiByName("gitgud"));
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
