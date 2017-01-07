@@ -91,7 +91,7 @@ public class Security implements IListener<MessageReceivedEvent> {
 
 
                     if (isBad) {
-                        if (shouldBan) {
+                        if (shouldBan && (!user.getRolesForGuild(guild).contains(arole) && !user.getRolesForGuild(guild).contains(brole) && !user.getRolesForGuild(guild).contains(crole)) ) {
                             if (user.getRolesForGuild(guild).contains(guild.getRolesByName("Shit List").get(0))){
                                 message.reply("DANGEROUS URL DETECTED! You were warned asshole... Goodbye");
                                 guild.banUser(user);

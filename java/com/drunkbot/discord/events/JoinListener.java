@@ -2,9 +2,7 @@ package com.drunkbot.discord.events;
 
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.UserJoinEvent;
-import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
 /**
