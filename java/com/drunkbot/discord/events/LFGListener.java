@@ -21,7 +21,7 @@ public class LFGListener implements IListener<UserVoiceChannelJoinEvent>{
 
 
             if (user.getConnectedVoiceChannels().contains(voiceChannel)) {
-                    guild.getChannelByID("221334865155457025").sendMessage("@everyone," + user.getName() + " is looking for a group to play R6 with.");
+                    guild.getChannelByID("221334865155457025").sendMessage("@everyone, " + user.getName() + " is looking for a group to play R6 with.");
 
             }
         } catch (Exception e ) {
