@@ -1,6 +1,8 @@
 package com.drunkbot.discord.events;
 
 import com.drunkbot.discord.DrunkBot;
+import com.drunkbot.discord.connectors.WebRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
@@ -9,6 +11,7 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -17,12 +20,10 @@ import java.util.Random;
 public class MessageListener implements IListener<MessageReceivedEvent> {
     public void handle(MessageReceivedEvent event)  {
         IMessage message = event.getMessage();
-        Random randomGenerator = new Random();
-
         try {
-            if (message.getContent().toLowerCase().contains("ping")) {
+            if (message.getContent().equalsIgnoreCase("ping")) {
                 message.getChannel().sendMessage("pong");
-            }else if (message.getContent().toLowerCase().contains("pong")) {
+            }else if (message.getContent().equalsIgnoreCase("pong")) {
                 message.getChannel().sendMessage("ping");
 
             } else if (message.getContent().toLowerCase().contains("--help")) {
@@ -41,21 +42,23 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
                         "--ban: I will ban specified user\n" +
                         "--soft: I will soft ban specified user\n";
                 message.getAuthor().getOrCreatePMChannel().sendMessage(rules);
-            } else if (message.getContent().toLowerCase().contains("but i was diamond")) {
+            } else if (message.getContent().toLowerCase().contains("i was diamond")) {
                 message.reply("sure you were buddy....");
                 message.addReaction(message.getGuild().getEmojiByName("douche"));
-            } else if (message.getContent().toLowerCase().contains("dayz")) {
-                message.addReaction(message.getGuild().getEmojiByName("douche"));
-            } else if (message.getContent().toLowerCase().contains("twitch")) {
-//                message.addReaction(
-                        message.addReaction(message.getGuild().getEmojiByName("streamer"));
+            } else  if (message.getContent().equalsIgnoreCase("--cat")) {
+                try {
 
-            } else  if (message.getContent().contains("{-}7")) {
-                message.addReaction(message.getGuild().getEmojiByName("chank"));
-//                message.addReaction(":douche:");
+                    ObjectMapper mapper = new ObjectMapper();
 
-            } else if (message.getContent().toLowerCase().contains("r6") || message.getContent().toLowerCase().contains("rainbow6")) {
-                message.addReaction(message.getGuild().getEmojiByName("CB1"));
+                    WebRequest requestor = new WebRequest();
+                    String response = requestor.doRequest("http://random.cat/meow");
+                    Map<String, Object> JSON = mapper.readValue(response, Map.class);
+                    String file = (String) JSON.get("file");
+
+                    message.reply(file);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         } catch (Exception e ) {
