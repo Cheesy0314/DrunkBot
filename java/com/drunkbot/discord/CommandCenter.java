@@ -9,27 +9,58 @@ import com.drunkbot.discord.events.MessageListener;
 import sx.blah.discord.api.IDiscordClient;
 
 import  javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //import
-public class CommandCenter extends JFrame{
-    private DrunkBot drunkBot;
+public class CommandCenter{
+    private static DrunkBot drunkBot;
+    public JFrame frame;
     public CommandCenter () {
-        setTitle("Bot Command Center");
-        setSize(500,300);
-        setLocation(10,200);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            } //windowClosing
-        } );
+        JFrame frame = new JFrame("DrunkBot Command Center");
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+
+        JButton component = new JButton();
+        component.setSize(15,10);
+        component.setText("Stop");
+        component.setLocation(0,20);
+        component.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandCenter.stop();
+            }
+        });
 
 
+        JButton startB = new JButton();
+        startB.setSize(15,10);
+        startB.setText("Start");
+        startB.setLocation(0,20);
+        startB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CommandCenter.start();
+            }
+        });
 
+
+        JPanel panel1 = new JPanel(new GridLayout(1,1));
+        JPanel panel2 = new JPanel(new GridLayout(1,1));
+        panel1.add(startB);
+        panel2.add(component);
+        panel.add(panel1);
+        panel.add(panel2);
+        frame.add(panel);
+        frame.setSize(200,100);
+        frame.setVisible(true);
     }
 
-    private void start () {
+    private static void start () {
         drunkBot = new DrunkBot("MjUwODY4OTE3NzkzMzI1MDU2.Cximgw.cjs8MF6_htTOE5IvVI_DMRAz84Y");
         IDiscordClient client = drunkBot.getClient();
 
@@ -43,7 +74,7 @@ public class CommandCenter extends JFrame{
         client.getDispatcher().registerListener(new AdminListener());
     }
 
-    private void stop () {
+    private static void stop () {
         try {
 //            drunkBot.getClient();
             drunkBot.getClient().logout();
@@ -54,5 +85,7 @@ public class CommandCenter extends JFrame{
         }
     }
 
-
+    public JFrame getFrame () {
+        return frame;
+    }
 }
