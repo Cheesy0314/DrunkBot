@@ -56,18 +56,6 @@ public class MessageListener implements IListener<MessageReceivedEvent> {
 
             } else if (message.getContent().toLowerCase().contains("r6") || message.getContent().toLowerCase().contains("rainbow6")) {
                 message.addReaction(message.getGuild().getEmojiByName("CB1"));
-            } else if (message.getContent().contains("discord.gg") ) {
-                IUser user = message.getAuthor();
-                IGuild guild = message.getGuild();
-                IRole arole = guild.getRoleByID("221379836776546304");
-                IRole brole = guild.getRoleByID("231254104545034240");
-
-                if (!user.getRolesForGuild(guild).contains(arole) && !user.getRolesForGuild(guild).contains(brole)) {
-
-                    message.reply("No linking discord channels, please see rules!");
-                    message.delete();
-                    user.addRole(guild.getRolesByName("Shit List").get(0));
-                }
             }
 
         } catch (Exception e ) {

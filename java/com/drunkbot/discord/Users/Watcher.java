@@ -1,6 +1,6 @@
 package com.drunkbot.discord.Users;
 
-import com.drunkbot.discord.WebRequest;
+import com.drunkbot.discord.connectors.WebRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.StatusChangeEvent;

@@ -1,4 +1,4 @@
-package com.drunkbot.discord;
+package com.drunkbot.discord.connectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -6,8 +6,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 //import org.apache.commons
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +18,18 @@ import java.util.Map;
  * Created by Dylan on 1/3/2017.
  */
 public class WebRequest {
+
+    public static String expander (String address) throws IOException{
+            URL url = new URL(address);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY); //using proxy may increase latency
+            connection.setInstanceFollowRedirects(false);
+            connection.connect();
+            String expandedURL = connection.getHeaderField("Location");
+            connection.getInputStream().close();
+            return expandedURL;
+
+    }
     private Map<String,String> headers;
 
     public void setHeaders (Map input) {

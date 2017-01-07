@@ -17,8 +17,8 @@ import java.util.Random;
 public class AdminListener implements IListener<MessageReceivedEvent> {
     public void handle(MessageReceivedEvent event) {
         IMessage message = event.getMessage();
+//        if message.getGuild().
         IGuild guild = message.getGuild();
-
         List<IRole> rolesForAuthor = message.getAuthor().getRolesForGuild(guild);
         boolean valid = false;
 
