@@ -2,10 +2,8 @@ package com.drunkbot.discord;
 import com.drunkbot.discord.Users.Security;
 import com.drunkbot.discord.Users.Watcher;
 import com.drunkbot.discord.audio.AudioHandler;
-import com.drunkbot.discord.events.AdminListener;
-import com.drunkbot.discord.events.JoinListener;
-import com.drunkbot.discord.events.LFGListener;
-import com.drunkbot.discord.events.MessageListener;
+import com.drunkbot.discord.events.*;
+import com.sun.deploy.uitoolkit.ui.ConsoleTraceListener;
 import sx.blah.discord.api.IDiscordClient;
 
 import  javax.swing.*;
@@ -51,6 +49,8 @@ public class CommandCenter{
 
         JPanel panel1 = new JPanel(new GridLayout(1,1));
         JPanel panel2 = new JPanel(new GridLayout(1,1));
+        JPanel panel3 = new JPanel(new GridLayout(2,3));
+        JTextField field = new JTextField();
         panel1.add(startB);
         panel2.add(component);
         panel.add(panel1);
@@ -71,17 +71,15 @@ public class CommandCenter{
         client.getDispatcher().registerListener(new Security());
         client.getDispatcher().registerListener(new JoinListener());
         client.getDispatcher().registerListener(new LFGListener());
+        client.getDispatcher().registerListener(new SwitchEvent());
         client.getDispatcher().registerListener(new AdminListener());
     }
 
     private static void stop () {
         try {
-//            drunkBot.getClient();
             drunkBot.getClient().logout();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.exit(0);
         }
     }
 
